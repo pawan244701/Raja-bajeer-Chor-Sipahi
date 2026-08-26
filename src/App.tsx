@@ -275,25 +275,27 @@ export const App = () => {
                         {cards.map((card) => (
                             <div
                                 key={card.id}
-                                className=""
+                                className={`w-full h-36 p-4 rounded-xl border-2 transition-all duration-300 cursor-pointer flex flex-col justify-between items-center shadow-md select-none ${card.isFlipped
+                                    ? 'bg-amber-500/10 border-amber-400 text-amber-300 scale-105'
+                                    : 'bg-slate-900 border-slate-700 text-slate-400 hover:border-slate-500 hover:scale-102'
+                                    }`}
                                 onClick={() => handleCardClick(card)}
                             >
                                 <p className="text-xs uppercase tracking-wider text-slate-400 font-bold truncate max-w-full">
                                     <strong>{card.assignedPlayer}</strong>
                                 </p>
-                                <div className="my-auto">
+                                <div className="my-auto ">
                                     {card.isFlipped ? <h3 className="text-lg font-black text-amber-400">{card.role}</h3> : <h3 className="text-2xl font-extrabold text-slate-500">? (Hidden)</h3>}
                                 </div>
                             </div>
                         ))}
                     </div>
                     {/* <button className={styles['all-btn']}
-                        type="button" onClick={forceDraw}>
-                        Force Draw
-                    </button> */}
+            type="button" onClick={forceDraw}>
+            Force Draw
+        </button> */}
                 </section>
             )}
-
             {step === 5 && (
                 <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8 max-w-md w-full shadow-2xl text-center space-y-6">
                     <h2>
