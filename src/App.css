@@ -1,1 +1,462 @@
 @import "tailwindcss";
+
+:root {
+    color-scheme: dark;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #080d19;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 3px solid #fbbf24;
+    outline-offset: 3px;
+}
+
+.app-root {
+    min-height: 100vh;
+    min-height: 100svh;
+    align-items: flex-start;
+    padding: clamp(0.75rem, 3vw, 2rem);
+    background:
+        radial-gradient(ellipse at 12% 12%, rgb(16 185 129 / 9%), transparent 33rem),
+        radial-gradient(ellipse at 88% 82%, rgb(245 158 11 / 8%), transparent 34rem),
+        #080d19;
+}
+
+.game-panel {
+    position: relative;
+    overflow: hidden;
+    border-color: rgb(148 163 184 / 18%);
+    background: linear-gradient(145deg, rgb(30 41 59 / 97%), rgb(15 23 42 / 98%));
+    box-shadow: 0 24px 80px rgb(0 0 0 / 35%), 0 1px 0 rgb(255 255 255 / 5%) inset;
+    animation: panel-enter 420ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.game-panel h1,
+.game-panel h2,
+.game-panel h3,
+.game-panel p {
+    overflow-wrap: anywhere;
+}
+
+.card-game-panel {
+    overflow: visible;
+    border-color: rgb(245 158 11 / 22%);
+    background:
+        radial-gradient(ellipse at 50% -30%, rgb(245 158 11 / 10%), transparent 70%),
+        linear-gradient(145deg, rgb(30 41 59 / 98%), rgb(15 23 42 / 99%));
+}
+
+.card-game-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.card-game-header > div {
+    min-width: 0;
+    text-align: left;
+}
+
+.eyebrow {
+    margin: 0 0 0.3rem;
+    color: #94a3b8;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.sound-toggle {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 2.65rem;
+    padding: 0.55rem 0.8rem;
+    border: 1px solid rgb(148 163 184 / 25%);
+    border-radius: 0.8rem;
+    background: rgb(15 23 42 / 75%);
+    color: #cbd5e1;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.sound-toggle[aria-pressed="true"] {
+    border-color: rgb(52 211 153 / 45%);
+    color: #6ee7b7;
+}
+
+.sound-toggle:hover {
+    transform: translateY(-1px);
+    background: rgb(51 65 85 / 80%);
+}
+
+.sound-toggle span {
+    font-size: 1.05rem;
+}
+
+.card-prompt {
+    margin: 0 auto;
+    max-width: 38rem;
+    color: #cbd5e1;
+    font-size: clamp(0.85rem, 2.6vw, 1rem);
+    line-height: 1.55;
+}
+
+.game-card {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    height: clamp(10.5rem, 28vw, 13.25rem);
+    padding: 0;
+    border: 0;
+    border-radius: 1rem;
+    background: transparent;
+    color: inherit;
+    perspective: 1000px;
+    cursor: pointer;
+    animation: card-deal-in 480ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.game-card:disabled {
+    cursor: default;
+}
+
+.game-card:focus-visible {
+    outline-offset: 5px;
+}
+
+.game-card-inner {
+    position: absolute;
+    inset: 0;
+    display: block;
+    transform-style: preserve-3d;
+    transition: transform 640ms cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+
+.game-card.is-flipped .game-card-inner {
+    transform: rotateY(180deg);
+}
+
+.game-card-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    overflow: hidden;
+    padding: 0.8rem 0.55rem;
+    border: 1px solid rgb(148 163 184 / 23%);
+    border-radius: 1rem;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    box-shadow: 0 8px 20px rgb(0 0 0 / 20%), 0 1px 0 rgb(255 255 255 / 7%) inset;
+}
+
+.game-card-back {
+    background:
+        linear-gradient(135deg, rgb(30 41 59 / 96%), rgb(15 23 42 / 98%)),
+        #0f172a;
+}
+
+.game-card-back::before,
+.game-card-front::before {
+    position: absolute;
+    inset: 0.35rem;
+    border: 1px solid rgb(148 163 184 / 12%);
+    border-radius: 0.72rem;
+    content: "";
+    pointer-events: none;
+}
+
+.game-card-back::after {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(135deg, transparent 0 12px, rgb(255 255 255 / 1.5%) 12px 13px);
+    content: "";
+    pointer-events: none;
+}
+
+.game-card-front {
+    transform: rotateY(180deg);
+    border-color: rgb(245 158 11 / 40%);
+    background: radial-gradient(ellipse at 50% 40%, rgb(245 158 11 / 15%), transparent 65%), #111827;
+    color: #fcd34d;
+}
+
+.card-player-name,
+.card-hint,
+.card-back-mark,
+.card-role-mark,
+.card-role-name {
+    position: relative;
+    z-index: 1;
+}
+
+.card-player-name {
+    width: 100%;
+    overflow: hidden;
+    color: #cbd5e1;
+    font-size: clamp(0.64rem, 2.4vw, 0.76rem);
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.card-back-mark {
+    display: grid;
+    width: 3.6rem;
+    height: 3.6rem;
+    place-items: center;
+    border: 1px solid rgb(245 158 11 / 28%);
+    border-radius: 50%;
+    background: rgb(245 158 11 / 8%);
+    color: #fbbf24;
+    font-family: Georgia, serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    text-shadow: 0 0 22px rgb(245 158 11 / 25%);
+}
+
+.card-role-mark {
+    color: #fbbf24;
+    font-size: clamp(1.8rem, 7vw, 2.8rem);
+    line-height: 1;
+    text-shadow: 0 0 22px rgb(245 158 11 / 25%);
+}
+
+.card-role-name {
+    color: #fcd34d;
+    font-size: clamp(0.95rem, 3vw, 1.2rem);
+    font-weight: 900;
+}
+
+.card-hint {
+    color: #94a3b8;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.game-card[data-role="Raja"] .game-card-front {
+    border-color: rgb(251 191 36 / 55%);
+    background: radial-gradient(ellipse at 50% 40%, rgb(251 191 36 / 19%), transparent 68%), #171827;
+}
+
+.game-card[data-role="Bajeer"] .game-card-front {
+    border-color: rgb(52 211 153 / 48%);
+    background: radial-gradient(ellipse at 50% 40%, rgb(52 211 153 / 15%), transparent 68%), #101d24;
+}
+
+.game-card[data-role="Bajeer"] .card-role-mark,
+.game-card[data-role="Bajeer"] .card-role-name {
+    color: #6ee7b7;
+}
+
+.game-card[data-role="Chor"] .game-card-front {
+    border-color: rgb(248 113 113 / 48%);
+    background: radial-gradient(ellipse at 50% 40%, rgb(248 113 113 / 15%), transparent 68%), #211720;
+}
+
+.game-card[data-role="Chor"] .card-role-mark,
+.game-card[data-role="Chor"] .card-role-name {
+    color: #fca5a5;
+}
+
+.game-card[data-role="Sipahi"] .game-card-front {
+    border-color: rgb(96 165 250 / 48%);
+    background: radial-gradient(ellipse at 50% 40%, rgb(96 165 250 / 15%), transparent 68%), #111b2b;
+}
+
+.game-card[data-role="Sipahi"] .card-role-mark,
+.game-card[data-role="Sipahi"] .card-role-name {
+    color: #93c5fd;
+}
+
+.card-footnote {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 0.78rem;
+}
+
+.shuffle-deck {
+    position: relative;
+    width: 5rem;
+    height: 4rem;
+    margin: 0.65rem auto;
+}
+
+.shuffle-deck span {
+    position: absolute;
+    display: grid;
+    width: 2.25rem;
+    height: 3rem;
+    place-items: center;
+    border: 1px solid rgb(251 191 36 / 45%);
+    border-radius: 0.45rem;
+    background: #172033;
+    color: #fbbf24;
+    font-size: 1.2rem;
+    box-shadow: 0 5px 12px rgb(0 0 0 / 25%);
+    animation: deck-shuffle 900ms ease-in-out infinite alternate;
+}
+
+.shuffle-deck span:nth-child(1) {
+    left: 0;
+    transform: rotate(-16deg);
+}
+
+.shuffle-deck span:nth-child(2) {
+    z-index: 1;
+    left: 1.35rem;
+    color: #f87171;
+    animation-delay: 120ms;
+}
+
+.shuffle-deck span:nth-child(3) {
+    right: 0;
+    transform: rotate(16deg);
+    animation-delay: 240ms;
+}
+
+.result-correct {
+    border-color: rgb(52 211 153 / 42%);
+}
+
+.result-incorrect {
+    border-color: rgb(248 113 113 / 38%);
+}
+
+.scoreboard-scroll {
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    border-radius: 0.8rem;
+    scrollbar-color: #475569 transparent;
+}
+
+.scoreboard-scroll table {
+    min-width: 32rem;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .game-card:not(:disabled):hover {
+        z-index: 2;
+        transform: translateY(-5px);
+    }
+
+    .game-card:not(:disabled):hover .game-card-back {
+        border-color: rgb(251 191 36 / 55%);
+        box-shadow: 0 14px 30px rgb(0 0 0 / 30%), 0 0 22px rgb(245 158 11 / 10%);
+    }
+}
+
+@media (min-height: 720px) {
+    .app-root {
+        align-items: center;
+    }
+}
+
+@media (max-width: 380px) {
+    .card-game-header {
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .card-game-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .sound-toggle {
+        min-height: 2.4rem;
+        padding: 0.45rem 0.6rem;
+        font-size: 0.7rem;
+    }
+
+    .game-card {
+        height: 10rem;
+    }
+
+    .game-card-face {
+        padding: 0.7rem 0.35rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@keyframes panel-enter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes card-deal-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes deck-shuffle {
+    from {
+        margin-top: 0;
+        filter: brightness(0.85);
+    }
+
+    to {
+        margin-top: -0.4rem;
+        filter: brightness(1.2);
+    }
+}
