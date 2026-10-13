@@ -255,12 +255,19 @@ export const App = () => {
                         <br /> 5: Guess who got Chor card!
                     </p>
                     <h2 className="text-sm font-semibold text-emerald-400">At the end you will see your final score.</h2>
-                    <button
-
-                        className="w-full py-3 px-6 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg transition-all duration-200 active:scale-95 cursor-pointer"
-                        type="button" onClick={() => setStep(2)}>
-                        Start
-                    </button>
+                    <div className='flex gap-1'>
+                        <a
+                            href='https://pawan244701.onrender.com/games'
+                            className="w-full py-3 px-3 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl shadow-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                        >
+                            Go Back
+                        </a>
+                        <button
+                            className="w-full py-3 px-6 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                            type="button" onClick={() => setStep(2)}>
+                            Start
+                        </button>
+                    </div>
                 </section>
             )}
 
@@ -295,9 +302,18 @@ export const App = () => {
                                 <option value="50">50 rounds</option>
                             </select>
                         </div>
-                        <button
-                            className="w-full mt-6 py-3 px-6 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl shadow-lg transition-all duration-200 active:scale-95 cursor-pointer"
-                            type="submit">Play</button>
+                        <div className='flex gap-1'>
+                            <button
+                                className="w-full mt-6 py-3 px-6 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl shadow-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                                onClick={() => setStep(1)}>
+                                Back
+                            </button>
+                            <button
+                                className="w-full mt-6 py-3 px-6 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl shadow-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                                type="submit">
+                                Play
+                            </button>
+                        </div>
                     </form>
                 </div>
             )}
@@ -318,18 +334,28 @@ export const App = () => {
                             <p className="eyebrow">Round {round} of {totalRounds}</p>
                             <h2 className="text-2xl font-extrabold text-amber-400">Choose your card</h2>
                         </div>
-                        <button
-                            className="sound-toggle"
-                            type="button"
-                            aria-pressed={isSoundEnabled}
-                            onClick={() => {
-                                if (!isSoundEnabled) getAudioContext();
-                                setIsSoundEnabled((enabled) => !enabled);
-                            }}
-                        >
-                            <span aria-hidden="true">{isSoundEnabled ? '♫' : '♪'}</span>
-                            Sound {isSoundEnabled ? 'on' : 'off'}
-                        </button>
+                        <div className='flex gap-1'>
+                            <a
+                                href='https://pawan244701.onrender.com/games'
+                                className="inline-flex flex-none items-center justify-center gap-[0.45rem] min-h-[2.65rem] px-[0.8rem] py-[0.55rem] border border-slate-400/25 rounded-[0.8rem] bg-slate-900/75 text-slate-300 text-[0.78rem] font-bold cursor-pointer transition-all duration-160ms ease-out hover:-translate-y-px hover:bg-slate-700/80 no-underline hover:text-red-500"
+                            >
+                                Exit Game
+                            </a>
+                            <button
+                                className="sound-toggle"
+                                type="button"
+                                aria-pressed={isSoundEnabled}
+                                onClick={() => {
+                                    if (!isSoundEnabled) getAudioContext();
+                                    setIsSoundEnabled((enabled) => !enabled);
+                                }}
+                            >
+                                <span aria-hidden="true">{isSoundEnabled ? '♫' : '♪'}</span>
+                                Sound {isSoundEnabled ? 'on' : 'off'}
+                            </button>
+                        </div>
+
+
                     </div>
                     <p className="card-prompt" aria-live="polite">
                         {isAutoFlipped
@@ -421,46 +447,47 @@ export const App = () => {
             {step === 7 && (
                 <div className="game-panel bg-slate-800 border border-slate-700 rounded-2xl p-5 sm:p-8 max-w-xl w-full shadow-2xl space-y-6">
                     <h2 className="text-2xl font-extrabold text-amber-400 text-center">Final Score-board</h2>
-                        <table className="w-full text-left border-collapse">
-                            <thead>
-                                <tr className="bg-slate-900 text-slate-300 text-sm border-b border-slate-700">
-                                    {players.map((p, i) => (
-                                        <th key={i} className="p-3 text-center font-bold border-r border-slate-800 last:border-r-0">{p.name}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-700/50 text-sm text-slate-300">
-                                {roundHistory.map((record) => (
-                                    <tr key={record.round}
-                                        className="hover:bg-slate-700/30 transition"
-                                    >
-                                        {players.map((p, i) => (
-                                            <td key={i}
-                                                className="p-3 text-center border-r border-slate-700/30 last:border-r-0"
-                                            >{record.scores[p.name] ?? 0}</td>
-                                        ))}
-                                    </tr>
+                    <table className="w-full text-left border-collapse">
+                        <thead>
+                            <tr className="bg-slate-900 text-slate-300 text-sm border-b border-slate-700">
+                                {players.map((p, i) => (
+                                    <th key={i} className="p-3 text-center font-bold border-r border-slate-800 last:border-r-0">{p.name}</th>
                                 ))}
-                            </tbody>
-                            <tfoot>
-                                <tr className="bg-slate-900/80 text-amber-400 font-bold border-t-2 border-slate-700">
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-700/50 text-sm text-slate-300">
+                            {roundHistory.map((record) => (
+                                <tr key={record.round}
+                                    className="hover:bg-slate-700/30 transition"
+                                >
                                     {players.map((p, i) => (
-                                        <td key={i} className="p-3 text-center border-r border-slate-800 last:border-r-0"
-                                        ><strong>{p.score}</strong></td>
+                                        <td key={i}
+                                            className="p-3 text-center border-r border-slate-700/30 last:border-r-0"
+                                        >{record.scores[p.name] ?? 0}</td>
                                     ))}
                                 </tr>
-                            </tfoot>
-                        </table>
-                    <div className="flex gap-4 pt-2">
+                            ))}
+                        </tbody>
+                        <tfoot>
+                            <tr className="bg-slate-900/80 text-amber-400 font-bold border-t-2 border-slate-700">
+                                {players.map((p, i) => (
+                                    <td key={i} className="p-3 text-center border-r border-slate-800 last:border-r-0"
+                                    ><strong>{p.score}</strong></td>
+                                ))}
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div className="flex gap-2 pt-2">
+                        <a
+                            href='https://pawan244701.onrender.com/games'
+                            className="flex-1 py-3 px-4 bg-slate-700 text-center hover:bg-slate-600 text-slate-200 rounded-xl shadow-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                        >
+                            Go Back
+                        </a>
                         <button
                             className="flex-1 py-3 px-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl shadow-lg transition-all duration-200 active:scale-95 cursor-pointer"
                             type="button" onClick={resetGame}>
                             Play Again
-                        </button>
-                        <button
-                            className="flex-1 py-3 px-4 bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold rounded-xl shadow-lg transition-all duration-200 active:scale-95 cursor-pointer"
-                            type="button" onClick={goBack}>
-                            Go Back
                         </button>
                     </div>
                 </div>
