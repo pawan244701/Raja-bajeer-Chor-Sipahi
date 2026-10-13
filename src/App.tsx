@@ -223,7 +223,7 @@ export const App = () => {
         setRoundTimer(2);
         setStep(targetStep);
     };
-    const goBack = () => resetGameState(1);
+    // const goBack = () => resetGameState(1);
     const resetGame = () => resetGameState(3);
 
     const bajeerPlayer = cards.find(c => c.role === 'Bajeer')?.assignedPlayer;
